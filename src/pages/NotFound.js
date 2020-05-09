@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Contact extends React.Component {
+class NotFound extends React.Component {
     render() {
         return (
             <div className="hero-section set-bg" role="alert">
@@ -11,4 +11,4 @@ class Contact extends React.Component {
     }
 }
 
-export default Contact;
+export default NotFound;

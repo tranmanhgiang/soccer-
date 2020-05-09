@@ -2,6 +2,8 @@ import React from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Breadcrumb from './../components/Breadcrumb/Breadcrumb';
+import { connect } from 'react-redux';
+import { fetchProfileRequest } from '../actions/profile';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -21,9 +23,13 @@ class Profile extends React.Component {
                 show : !this.state.show
             });
     }
+    componentDidMount() {
+        this.props.fetchProfile();
+    }
 
     
     render() {
+        var {profile} = this.props;
         return (
             <div>
                 {/* Breadcrumb Section Begin */}
@@ -238,4 +244,18 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+const mapStateToProps = (state) => {
+    return {
+        profile : state.profile
+    }
+}
+
+const mapDispatchToProps = (dispatch , props) => {
+    return {
+        fetchProfile : () => {
+            dispatch(fetchProfileRequest());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

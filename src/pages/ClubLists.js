@@ -1,6 +1,7 @@
 import React from 'react';
-import callApi from './../utils/apiCaller';
 import ClubListItem from './ClubListItem';
+import { connect } from 'react-redux';
+import { fetchAllClubsRequest } from '../actions/clubLists';
 
 class ClubLists extends React.Component {
 
@@ -15,11 +16,7 @@ class ClubLists extends React.Component {
     }
     
     componentDidMount() {
-        callApi('clubs','GET',null).then(res => {
-            this.setState({
-                clubs : res.data
-            })
-        })
+        this.props.fetchAllClubs();
     }
 
     showClubs = (clubs) => {
@@ -110,7 +107,8 @@ class ClubLists extends React.Component {
     
 
     render() {
-        var { clubs,address,level } = this.state;
+        var { address,level } = this.state;
+        var { clubs } = this.props;
         return (
             <div>
                 {
@@ -173,4 +171,18 @@ class ClubLists extends React.Component {
     }
 }
 
-export default ClubLists;
+const mapStateToProps = (state) => {
+    return {
+        clubs : state.clubs
+    }
+}
+
+const mapDispatchToProps = (dispatch , ownProps) => {
+    return {
+        fetchAllClubs : () => {
+            dispatch(fetchAllClubsRequest())
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ClubLists);

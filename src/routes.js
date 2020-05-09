@@ -15,7 +15,7 @@ const routes = [
     {
         path:"/",
         exact : true,
-        main : () => <Home/>
+        main : ({history, location}) => <Home location = {location} history = {history} />
     },
     {
         path:"/matchfound",
@@ -60,7 +60,7 @@ const routes = [
     {
         path:"/login",
         exact : false,
-        main : () => <Login/>
+        main : ({location}) => <Login location = {location} />
     },
     {
         path:"",

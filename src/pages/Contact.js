@@ -2,6 +2,8 @@ import React from 'react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import callApi from '../utils/apiCaller';
+import { connect } from 'react-redux';
+import { fetchReportsRequest } from '../actions/reports';
 
 class Contact extends React.Component {
     constructor(props) {
@@ -21,11 +23,7 @@ class Contact extends React.Component {
     }
 
     componentDidMount() {
-        callApi('reports','GET',null).then(res => {
-            this.setState({
-                feedback : res.data
-            })
-        })
+        this.props.fetchAllFeedback();
     }
 
     showFeedback = (feedback) => {
@@ -61,7 +59,7 @@ class Contact extends React.Component {
     }
 
     render() {
-        var { feedback } = this.state;
+        var { feedback } = this.props;
         return (
             <section className=" hero-section">
                 <div className="container">
@@ -89,4 +87,18 @@ class Contact extends React.Component {
     }
 }
 
-export default Contact;
+const mapStateToProps = (state) => {
+    return {
+        feedback : state.reports
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchAllFeedback : () => {
+            dispatch(fetchReportsRequest()); 
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Contact);

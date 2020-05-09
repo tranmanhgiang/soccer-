@@ -14,7 +14,6 @@ class MyClubUpdate extends React.Component {
             txtOldest : '',
             txtDesc : ''
         }
-        this.fileInput = React.createRef();
     }
     
     onHandleChange = (e) => {
@@ -94,7 +93,7 @@ class MyClubUpdate extends React.Component {
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2">Logo đội</label>
-                    <input type="file" className="col-sm-6" name="thunbar" ref={this.fileInput} onChange={this.onHandleChange} value={this.state.thunbar} />
+                    <input type="file" className="col-sm-6" name="thunbar" onChange={this.onHandleChange} value={this.state.thunbar} />
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Độ tuổi</label>

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import callApi from './../utils/apiCaller';
+// import { connect } from 'react-redux';
+// import * as types from './../constants/actionTypes';
+
 
 class Login extends React.Component {
     constructor(props) {
@@ -8,7 +11,8 @@ class Login extends React.Component {
         this.state = {
             u_email : '',
             u_password : '',
-            isRedirect : false
+            isRedirect : false,
+            login : false
         };
     }
     
@@ -20,7 +24,7 @@ class Login extends React.Component {
             [name] : value
         })
     }
-    
+
     onHandleSubmit = (e) => {
         e.preventDefault();
         var check = false;
@@ -36,13 +40,18 @@ class Login extends React.Component {
                 // localStorage.setItem('user',JSON.stringify(u));
                 // var temp = JSON.parse(localStorage.getItem('user'));
                 // console.log(temp.u_email);
-                this.setState({
-                    isRedirect : true
-                });
+                
                 alert("Đăng nhập thành công!");
                 callApi(`users/${u.u_email}`,'GET',null).then(res => {
                     var userlocal = res.data;
                     localStorage.setItem('user',JSON.stringify(userlocal));
+                    var user = localStorage.setItem('user',JSON.stringify(userlocal));
+                    if(user !== null){
+                        this.setState({
+                            isRedirect : true
+                        });
+                    }
+                    
                 });
             } else {
                 alert("Email hoặc mật khẩu không chính xác!");
@@ -53,8 +62,10 @@ class Login extends React.Component {
     render() {
         var { isRedirect } = this.state;
         if(isRedirect) {
-            return <Redirect to="/"/>
+            return <Redirect  to="/matchfound"/>
+            
         }
+        
         return (
             <div>
                 <section className="hero-section set-bg bg">
@@ -102,4 +113,21 @@ class Login extends React.Component {
     }
 }
 
+// const mapStateToProps = (state, ownProps) => {
+//     return {
+//         isCheck : state.checkLogin
+//     }
+// }
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//     return {
+//         login : () => {
+//             var user = JSON.parse(localStorage.getItem('user'));
+//             if(user !== null) {
+//                 dispatch({type : types.CHECK_LOGIN})
+//             }
+//         }
+//     }
+// }
+
+// export default connect(mapStateToProps,mapDispatchToProps)(Login);
 export default Login;

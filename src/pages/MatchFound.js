@@ -1,22 +1,20 @@
 import React from 'react';
-import callApi from './../utils/apiCaller';
 import ShowClub from './ShowClub';
+import { connect } from 'react-redux';
+import { fetchClubsRequest } from './../actions/findAmatch';
+
 class MatchFound extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             filterName: '',
-            clubs : []
+            clubs : [] 
         }
     }
 
     componentDidMount() {
+        this.props.fetchClubsFindMatch()
         
-        callApi('findamatch','GET',null).then(res => {
-            this.setState({
-                clubs : res.data
-            })
-        })
     }
     showClub = (clubs) => {
         var myclub = JSON.parse(localStorage.getItem('user'));
@@ -53,7 +51,8 @@ class MatchFound extends React.Component {
 
 
     render() {
-        var {clubs} = this.state;
+        var {clubs} = this.props;
+        // console.log(clubs[0]);
         return (
             <div>
                 {/* Breadcrumb Section Begin */}
@@ -93,4 +92,18 @@ class MatchFound extends React.Component {
     }
 }
 
-export default MatchFound;
+const mapStateToProps = state => {
+    return {
+        clubs : state.fetchClubs
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchClubsFindMatch : () => {
+            dispatch(fetchClubsRequest());
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(MatchFound);

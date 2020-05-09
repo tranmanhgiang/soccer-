@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import routes from './../../routes';
+// import { connect } from 'react-redux';
+// import * as types from './../../constants/actionTypes';
 
 const MenuLink = ({label, to, activeOnlyWhenExact}) => {
     return (
@@ -26,22 +28,17 @@ class Menu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCheck : false
+            check : false
         }
     }
-    componentDidMount() {
-        var user = JSON.parse(localStorage.getItem('user'));
-        this.setState({
-            isCheck : (user !== null ? true : false)
-        })
-        
-    }
     
-
+    
     render() {
         
-        var {isCheck} = this.state;
-        return (!isCheck) ? (    
+        var { check } = this.state;
+        console.log(check)
+        var user =  JSON.parse(localStorage.getItem('user'));
+        return (check === false) ? (    
                 <Router>
                 <div>
                     <div id="preloder">
@@ -123,12 +120,24 @@ class Menu extends React.Component {
                                                 </li>
                                                 <MenuLink label="Quản lý đội" to="/myclub" activeOnlyWhenExact={false} />
                                                 <MenuLink label="Liên hệ" to="/contact" activeOnlyWhenExact={false} />
-                                                <MenuLink label="Đăng ký" to="/regist" activeOnlyWhenExact={false} />
-                                                <MenuLink label="Đăng nhập" to="/login" activeOnlyWhenExact={false} />
+                                                <MenuLink label="Đăng ký" to="/regist" activeOnlyWhenExact={false}  style = {{display: (user !== null) ? '' : 'none'}}/>
+                                                {/* <MenuLink label="Đăng nhập" to="/login" activeOnlyWhenExact={false} /> */}
+                                                <li style = {{display: (user !== null) ? '' : 'none'}}>
+                                                    <Link to = "">
+                                                        <img className="img-profile rounded-circle" src="img/messi.jpg" style = {{width: '35px', height: '35px'}} alt = "avatar" />
+                                                    </Link>
+                                                    <ul className="dropdown">
+                                                        <MenuLink label="Thông tin cá nhân" to="/profile" activeOnlyWhenExact={false} />
+                                                        <hr />
+                                                        <li>
+                                                        <Link to = '/'>Đăng xuất</Link>
+                                                        </li>
+                                                    </ul>
+                                                </li>
                                             </ul>
-                                            <div className="nm-right search-switch">
+                                            {/* <div className="nm-right search-switch">
                                                 <i className="fa fa-search" />
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -144,6 +153,8 @@ class Menu extends React.Component {
                         {this.showContentMenus(routes)}
                     </Switch>
                 </div>
+                
+                
             </Router>
             ) : '';
         }
@@ -161,5 +172,19 @@ class Menu extends React.Component {
         return result;
     }
 }
+
+// const mapStateToProps = (state, ownProps) => {
+//     return {
+//         isCheck : state.checkLogin
+//     }
+// }
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//     return {
+//         login : () => {
+//             dispatch({type : types.CHECK_LOGIN})
+//         }
+//     }
+// }
+
 
 export default Menu;

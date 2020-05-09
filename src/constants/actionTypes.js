@@ -1,0 +1,6 @@
+export const FETCH_CLUBS_MATCH = 'FETCH_CLUBS_MATCH';
+export const FETCH_ALL_CLUBS = 'FETCH_ALL_CLUBS';
+export const FETCH_REPORTS = 'FETCH_REPORTS';
+export const FETCH_PROFILE = 'FETCH_PROFILE';
+
+
